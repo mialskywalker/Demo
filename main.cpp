@@ -1,25 +1,29 @@
 #include <iostream>
-#include <string>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-string gcdOfStrings(string str1, string str2) {
-    string res = "";
-    int length = str1.length() / str2.length();
-
-    for (int i = 0; i < length+1; i++) {
-        if (str1[i] == str2[i])
-            res += str2[i];
+vector<bool> kidsWithCandies(vector<int> &candies, int extraCandies) {
+    vector<bool> kids;
+    for (int kid : candies) {
+        if (kid + extraCandies >= *max_element(candies.begin(), candies.end()))
+            kids.push_back(true);
+        else
+            kids.push_back(false);
     }
 
-
-
-    return res;
+    return kids;
 }
 
 int main() {
+    vector<int> candies{12,1,12};
+    int extra = 10;
 
-    cout << gcdOfStrings("ABCDEF", "ABC") << endl;
+    vector<bool> extraCandies = kidsWithCandies(candies, extra);
+
+    for (bool c : extraCandies)
+        cout << c << endl;
 
     return 0;
 }
