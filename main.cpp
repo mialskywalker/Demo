@@ -1,29 +1,51 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
-vector<bool> kidsWithCandies(vector<int> &candies, int extraCandies) {
-    vector<bool> kids;
-    for (int kid : candies) {
-        if (kid + extraCandies >= *max_element(candies.begin(), candies.end()))
-            kids.push_back(true);
-        else
-            kids.push_back(false);
+bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+    if (flowerbed.size() == 1 && flowerbed[0] == 0) return true;
+    else {
+
+        for (int i = 0; i < flowerbed.size(); i++) {
+
+            if (flowerbed.size() == 1 && flowerbed[0] == 0)
+                return true;
+            if (i == 0) {
+                if (flowerbed[i] == 0 && flowerbed[i+1] == 0) {
+                    flowerbed.erase(flowerbed.begin());
+                    flowerbed.insert(flowerbed.begin(), 1);
+                    n--;
+                }
+            }
+            else if (i == flowerbed.size()-1) {
+                if (flowerbed[i] == 0 && flowerbed[i-1] == 0) {
+                    flowerbed.erase(flowerbed.end());
+                    flowerbed.push_back(1);
+                    n--;
+                }
+            }
+            else {
+                if (flowerbed[i] == 0 && flowerbed[i-1] == 0 && flowerbed[i+1] == 0) {
+                    flowerbed.erase(flowerbed.begin() + i);
+                    flowerbed.insert(flowerbed.begin() + i, 1);
+                    n--;
+                }
+            }
+            if (n <= 0) return true;
+        }
+
+        return false;
+
     }
 
-    return kids;
 }
 
 int main() {
-    vector<int> candies{12,1,12};
-    int extra = 10;
 
-    vector<bool> extraCandies = kidsWithCandies(candies, extra);
+    vector<int> flowerbed {1,0,0,0,1,0,0};
 
-    for (bool c : extraCandies)
-        cout << c << endl;
+    cout << canPlaceFlowers(flowerbed, 2) << endl;
 
     return 0;
 }
