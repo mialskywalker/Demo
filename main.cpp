@@ -1,32 +1,43 @@
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 using namespace std;
 
-string reverseVowels(string s) {
-    vector<char> vowels;
-    vector<int> positions;
-
-    for (int i = 0; i < s.length(); i++) {
-        if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U') {
-            vowels.push_back(s[i]);
-            positions.push_back(i);
+string reverseWords(string s) {
+    istringstream istr(s);
+    // vector<string> ss;
+    //
+    string curr;
+    string result;
+    // while (istr >> curr) {
+    //     ss.push_back(curr);
+    // }
+    // bool bFirst = true;
+    // for (auto it = ss.rbegin(); it != ss.rend(); it++) {
+    //     if (bFirst) {
+    //         result += *it;
+    //         bFirst = false;
+    //     }
+    //     else {
+    //         result += ' ' + *it;
+    //     }
+    // }
+    bool bLast = true;
+    while (istr >> curr) {
+        if (bLast) {
+            result = curr + result;
+            bLast = false;
         }
+        else {
+            result = curr + ' ' + result;
+        }
+
     }
 
-    vector<int>::reverse_iterator it;
-    int k = 0;
-    for (it = positions.rbegin(); it != positions.rend(); it++) {
-        s[*it] = vowels[k];
-        k++;
-    }
-
-    return s;
+    return result;
 }
 
 int main() {
-
-    cout << reverseVowels("aA");
-
-    return 0;
+    cout << reverseWords("the sky is blue") << endl;
 }
