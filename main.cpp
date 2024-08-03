@@ -1,43 +1,43 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
 
 using namespace std;
 
-string reverseWords(string s) {
-    istringstream istr(s);
-    // vector<string> ss;
-    //
-    string curr;
-    string result;
-    // while (istr >> curr) {
-    //     ss.push_back(curr);
-    // }
-    // bool bFirst = true;
-    // for (auto it = ss.rbegin(); it != ss.rend(); it++) {
-    //     if (bFirst) {
-    //         result += *it;
-    //         bFirst = false;
-    //     }
-    //     else {
-    //         result += ' ' + *it;
-    //     }
-    // }
-    bool bLast = true;
-    while (istr >> curr) {
-        if (bLast) {
-            result = curr + result;
-            bLast = false;
+int pivotIndex(vector<int>& nums) {
+    if (nums.size() == 1)
+        return 0;
+    for(int i = 0; i < nums.size(); i++) {
+        int leftSum = 0;
+        int rightSum = 0;
+        if (i == 0) {
+            leftSum = 0;
+            for (int k = i+1; k < nums.size(); k++)
+                rightSum += nums[k];
+            if (leftSum == rightSum)
+                return 0;
+        }
+        else if (i == nums.size()-1) {
+            rightSum = 0;
+            for (int k = 0; k < nums.size()-1; k++)
+                leftSum += nums[k];
+            if (leftSum == rightSum)
+                return i;
         }
         else {
-            result = curr + ' ' + result;
+            for (int left = 0; left < i; left++)
+                leftSum += nums[left];
+            for (int right = i+1; right < nums.size(); right++)
+                rightSum += nums[right];
+            if (leftSum == rightSum)
+                return i;
         }
-
     }
 
-    return result;
+    return -1;
+
 }
 
 int main() {
-    cout << reverseWords("the sky is blue") << endl;
+    vector<int> nums {4};
+    cout << pivotIndex(nums) << endl;
 }
