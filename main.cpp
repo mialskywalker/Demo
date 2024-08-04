@@ -1,43 +1,29 @@
 #include <iostream>
 #include <vector>
+#include <map>
+#include <set>
 
 using namespace std;
 
-int pivotIndex(vector<int>& nums) {
-    if (nums.size() == 1)
-        return 0;
-    for(int i = 0; i < nums.size(); i++) {
-        int leftSum = 0;
-        int rightSum = 0;
-        if (i == 0) {
-            leftSum = 0;
-            for (int k = i+1; k < nums.size(); k++)
-                rightSum += nums[k];
-            if (leftSum == rightSum)
-                return 0;
-        }
-        else if (i == nums.size()-1) {
-            rightSum = 0;
-            for (int k = 0; k < nums.size()-1; k++)
-                leftSum += nums[k];
-            if (leftSum == rightSum)
-                return i;
-        }
-        else {
-            for (int left = 0; left < i; left++)
-                leftSum += nums[left];
-            for (int right = i+1; right < nums.size(); right++)
-                rightSum += nums[right];
-            if (leftSum == rightSum)
-                return i;
-        }
+bool uniqueOccurrences(vector<int> &arr) {
+    map<int, int> numbers;
+    set<int> unique;
+
+    for (int i = 0; i < arr.size(); i++) {
+        if (numbers.find(arr[i]) == numbers.end())
+            numbers[arr[i]] = 1;
+        else
+            numbers[arr[i]]++;
     }
 
-    return -1;
+    for (pair<int, int> el: numbers) {
+        unique.insert(el.second);
+    }
 
+    return numbers.size() == unique.size();
 }
 
 int main() {
-    vector<int> nums {4};
-    cout << pivotIndex(nums) << endl;
+    vector<int> arr{-3, 0, 1,-3,1,1,1,-3,10,0};
+    cout << uniqueOccurrences(arr) << endl;
 }
