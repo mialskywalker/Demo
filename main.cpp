@@ -1,41 +1,35 @@
 #include <iostream>
-#include <vector>
-#include <set>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
-vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
-    vector<vector<int>> res {{},{}};
-    set<int> res1, res2;
+int findContentChildren(vector<int>& g, vector<int>& s) {
 
-    for (vector<int>::iterator it1 = nums1.begin(); it1 != nums1.end(); it1++)
-        if(find(nums2.begin(), nums2.end(), *it1) == nums2.end())
-            res1.insert(*it1);
+    if (s.empty())
+        return 0;
 
-    for (vector<int>::iterator it2 = nums2.begin(); it2 != nums2.end(); it2++)
-        if(find(nums1.begin(), nums1.end(), *it2) == nums1.end())
-            res2.insert(*it2);
+    sort(g.begin(), g.end());
+    sort(s.begin(), s.end());
 
-    for (int el : res1)
-        res[0].push_back(el);
-    for (int el : res2)
-        res[1].push_back(el);
+    int maxNum = 0;
+    int i = 0;
+    int j = 0;
 
-    return res;
+    while (i < g.size() && j < s.size()) {
+        if (s[j] >= g[i]) {
+            maxNum++;
+            i++;
+        }
+        j++;
+    }
+
+    return maxNum;
 }
 
 int main() {
-    vector<int> nums1 {1,2,3,3};
-    vector<int> nums2 {1,1,2,2};
+    vector<int> g {1,2};
+    vector<int> s {1,2,3};
 
-    vector<vector<int>> a = findDifference(nums1, nums2);
-
-    for (int i = 0; i < a.size(); i++) {
-        for (int k = 0; k < a[i].size(); k++) {
-            cout << a[i][k] << ' ';
-        }
-        cout << endl;
-    }
-
+    cout << findContentChildren(g, s) << endl;
 }
