@@ -1,13 +1,34 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-string toLowerCase(string s) {
-    for (int i = 0; i < s.length(); i++)
-        s[i] = tolower(s[i]);
-    return s;
+int countConsistentStrings(string allowed, vector<string>& words) {
+
+    int countStrings = 0;
+    bool isConsistent = false;
+
+    for (string el : words) {
+        for (char l : el) {
+            if (allowed.find(l) != std::string::npos) {
+                isConsistent = true;
+            }
+            else {
+                isConsistent = false;
+                break;
+            }
+        }
+        if (isConsistent)
+            countStrings++;
+    }
+
+    return countStrings;
 }
 
 int main() {
-    cout << toLowerCase("LOVELY") << endl;
+
+    vector<string> words {"cc","acd","b","ba","bac","bad","ac","d"};
+
+    cout << countConsistentStrings("cad", words) << endl;
+    return 0;
 }
